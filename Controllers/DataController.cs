@@ -18,8 +18,17 @@ public class DataController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<IEnumerable<SeasonModel>> Get()
+    public async Task<IActionResult> Get()
     {
-        return await _dataService.GetAllAsync();
+        var result = await _dataService.GetAllAsync();
+        return Ok(result);
+    }
+
+
+    [HttpGet("{id}")]
+    public async Task<IActionResult> GetById(string id)
+    {
+        var result = await _dataService.GetByIdAsync(id);
+        return Ok(result);
     }
 }

@@ -1,4 +1,5 @@
-﻿using MongoDB.Driver;
+﻿using MongoDB.Bson;
+using MongoDB.Driver;
 using MongoTest.Models.Entities;
 
 namespace MongoTest.Services;
@@ -15,6 +16,12 @@ public class DataService
     public async Task<List<SeasonModel>> GetAllAsync()
     {
         var data = await _seasons.Find(_ => true).ToListAsync();
+        return data;
+    }
+
+    public async Task<SeasonModel> GetByIdAsync(string id)
+    {
+        var data = await _seasons.Find(x => x.Id == id).FirstOrDefaultAsync();
         return data;
     }
 }

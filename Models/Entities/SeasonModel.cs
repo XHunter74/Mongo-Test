@@ -6,11 +6,11 @@ namespace MongoTest.Models.Entities;
 public class SeasonModel
 {
     [BsonId]
-    //[BsonElement("_id")]
-    public ObjectId Id { get; set; }
+    [BsonRepresentation(BsonType.ObjectId)]
+    public string Id { get; set; }
 
     [BsonElement("season")]
-    public string Season { get; set; }
+    public int Season { get; set; }
 
     [BsonElement("year")]
     public int Year { get; set; }
@@ -21,11 +21,24 @@ public class SeasonModel
 
 public class EpisodeModel
 {
-    public int number_overall { get; set; }
-    public int number_in_season { get; set; }
-    public string title { get; set; }
-    public string[] directors { get; set; } = [];
-    public string[] writers { get; set; } = [];
-    public string original_air_date { get; set; }
-    public string number_us_viewers { get; set; }
+    [BsonElement("number_overall")]
+    public int NumberOverall { get; set; }
+
+    [BsonElement("number_in_season")]
+    public int NumberInSeason { get; set; }
+
+    [BsonElement("title")]
+    public string Title { get; set; }
+
+    [BsonElement("directors")]
+    public string[] Directors { get; set; } = [];
+
+    [BsonElement("writers")]
+    public string[] Writers { get; set; } = [];
+
+    [BsonElement("original_air_date")]
+    public string OriginalAirDate { get; set; }
+
+    [BsonElement("number_us_viewers")]
+    public decimal NumberUsViewers { get; set; }
 }
