@@ -14,6 +14,13 @@ public class MongoRepository<T> : IRepository<T> where T : class
         _session = session;
     }
 
+    public async Task<IEnumerable<T>> GetByFilter(FilterDefinition<T> filter)
+    {
+        var documents = _session == null ? await _collection.Find(filter).ToListAsync()
+            : await _collection.Find(_session, filter).ToListAsync();
+        return documents;
+    }
+
     public async Task<T> GetByIdAsync(string id)
     {
         var filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
