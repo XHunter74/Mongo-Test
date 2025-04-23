@@ -8,11 +8,11 @@ namespace MongoTest.Controllers;
 [Route("[controller]")]
 public class DataController : ControllerBase
 {
-    private readonly ILogger<WeatherForecastController> _logger;
+    private readonly ILogger<DataController> _logger;
     private readonly IMongoUnitOfWork _uow;
 
     public DataController(
-        ILogger<WeatherForecastController> logger,
+        ILogger<DataController> logger,
         IMongoUnitOfWork uow)
     {
         _logger = logger;
