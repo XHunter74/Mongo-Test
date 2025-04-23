@@ -22,7 +22,7 @@ public class MongoRepository<T> : IRepository<T> where T : class
         return document;
     }
 
-    public async Task AddAsync(T entity)
+    public async Task<T> AddAsync(T entity)
     {
         if (_session == null)
         {
@@ -32,19 +32,21 @@ public class MongoRepository<T> : IRepository<T> where T : class
         {
             await _collection.InsertOneAsync(_session, entity);
         }
+
+        return entity;
     }
 
-    public async Task RemoveAsync(string id)
+    public async Task<bool> RemoveAsync(string id)
     {
         var filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
+        DeleteResult result;
+
         if (_session == null)
-        {
-            await _collection.DeleteOneAsync(filter);
-        }
+            result = await _collection.DeleteOneAsync(filter);
         else
-        {
-            await _collection.DeleteOneAsync(_session, filter);
-        }
+            result = await _collection.DeleteOneAsync(_session, filter);
+
+        return result.DeletedCount > 0;
     }
 
     public async Task<IEnumerable<T>> GetAllAsync()
@@ -52,5 +54,17 @@ public class MongoRepository<T> : IRepository<T> where T : class
         var allDocuments = _session == null ? await _collection.Find(Builders<T>.Filter.Empty).ToListAsync()
             : await _collection.Find(_session, Builders<T>.Filter.Empty).ToListAsync();
         return allDocuments;
+    }
+
+    public async Task<bool> UpdateAsync(string id, T entity)
+    {
+        var filter = Builders<T>.Filter.Eq("_id", ObjectId.Parse(id));
+        ReplaceOneResult result;
+
+        if (_session != null)
+            result = await _collection.ReplaceOneAsync(_session, filter, entity);
+        else
+            result = await _collection.ReplaceOneAsync(filter, entity);
+        return result.MatchedCount > 0;
     }
 }
