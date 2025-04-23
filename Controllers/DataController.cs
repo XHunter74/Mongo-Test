@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using MongoTest.Models.Entities;
-using MongoTest.Services;
+using MongoTest.UnitOfWork;
 
 namespace MongoTest.Controllers;
 
@@ -9,18 +8,20 @@ namespace MongoTest.Controllers;
 public class DataController : ControllerBase
 {
     private readonly ILogger<WeatherForecastController> _logger;
-    private readonly DataService _dataService;
+    private readonly IMongoUnitOfWork _uow;
 
-    public DataController(ILogger<WeatherForecastController> logger, DataService dataService)
+    public DataController(
+        ILogger<WeatherForecastController> logger,
+        IMongoUnitOfWork uow)
     {
         _logger = logger;
-        _dataService = dataService;
+        _uow = uow;
     }
 
     [HttpGet]
     public async Task<IActionResult> Get()
     {
-        var result = await _dataService.GetAllAsync();
+        var result = await _uow.Seasons.GetAllAsync();
         return Ok(result);
     }
 
@@ -28,7 +29,7 @@ public class DataController : ControllerBase
     [HttpGet("{id}")]
     public async Task<IActionResult> GetById(string id)
     {
-        var result = await _dataService.GetByIdAsync(id);
+        var result = await _uow.Seasons.GetByIdAsync(id);
         return Ok(result);
     }
 }

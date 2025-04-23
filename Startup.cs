@@ -5,8 +5,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using MongoDB.Driver;
-using MongoTest.Services;
 using MongoTest.Settings;
+using MongoTest.UnitOfWork;
 
 public class Startup
 {
@@ -27,14 +27,12 @@ public class Startup
             return new MongoClient(settings.ConnectionString);
         });
 
-        services.AddScoped<IMongoDatabase>(sp =>
+        services.AddScoped<IMongoUnitOfWork>(sp =>
         {
             var settings = sp.GetRequiredService<IOptions<MongoDbSettings>>().Value;
             var client = sp.GetRequiredService<IMongoClient>();
-            return client.GetDatabase(settings.DatabaseName);
+            return new MongoUnitOfWork(client, settings.DatabaseName);
         });
-
-        services.AddScoped<DataService>();
 
         services.AddControllers();
     }
