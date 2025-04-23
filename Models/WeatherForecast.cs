@@ -1,4 +1,4 @@
-namespace MongoTest
+namespace MongoTest.Models
 {
     public class WeatherForecast
     {

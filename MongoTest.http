@@ -2,5 +2,13 @@
 
 GET {{MongoTest_HostAddress}}/weatherforecast/
 Accept: application/json
-
 ###
+
+GET {{MongoTest_HostAddress}}/data/
+Accept: application/json
+###
+
+GET {{MongoTest_HostAddress}}/data/6807bd69607403aba3d861e0
+Accept: application/json
+###
+

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using MongoTest.Models;
 
 namespace MongoTest.Controllers;
 
