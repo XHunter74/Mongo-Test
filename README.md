@@ -69,11 +69,5 @@ The repository pattern is implemented in the `MongoRepository` class, providing 
 ### API Endpoints
 API endpoints are defined in the `Controllers/` folder. For example, `DataController.cs` handles CRUD operations for data entities.
 
-## Contributing
-Contributions are welcome! Please fork the repository and submit a pull request.
-
 ## License
 This project is licensed under the MIT License. See the LICENSE file for details.
-
-## Contact
-For questions or support, please contact [your-email@example.com].
