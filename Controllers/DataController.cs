@@ -23,7 +23,7 @@ public class DataController : ControllerBase
     public async Task<IActionResult> Get()
     {
         _logger.LogInformation("Executing Get method to retrieve all seasons.");
-        var result = await _uow.Seasons.GetAllAsync();
+        var result = await _uow.Seasons.GetAllAsync().ConfigureAwait(false);
         _logger.LogInformation("Retrieved {Count} seasons.", result.Count());
         return Ok(result);
     }
@@ -32,7 +32,7 @@ public class DataController : ControllerBase
     public async Task<IActionResult> GetById(string id)
     {
         _logger.LogInformation("Executing GetById method with id: {Id}.", id);
-        var result = await _uow.Seasons.GetByIdAsync(id);
+        var result = await _uow.Seasons.GetByIdAsync(id).ConfigureAwait(false);
         if (result == null)
         {
             _logger.LogWarning("Season with id: {Id} not found.", id);
@@ -46,7 +46,7 @@ public class DataController : ControllerBase
     public async Task<IActionResult> Create(SeasonModel model)
     {
         _logger.LogInformation("Executing Create method with model: {@Model}.", model);
-        var result = await _uow.Seasons.AddAsync(model);
+        var result = await _uow.Seasons.AddAsync(model).ConfigureAwait(false);
         _logger.LogInformation("Created season with id: {Id}.", result.Id);
         return CreatedAtRoute("GetSeasonById", new { id = result.Id }, result);
     }
@@ -55,7 +55,7 @@ public class DataController : ControllerBase
     public async Task<IActionResult> Update(string id, SeasonModel model)
     {
         _logger.LogInformation("Executing Update method with id: {Id} and model: {@Model}.", id, model);
-        var updated = await _uow.Seasons.UpdateAsync(id, model);
+        var updated = await _uow.Seasons.UpdateAsync(id, model).ConfigureAwait(false);
         if (!updated)
         {
             _logger.LogWarning("Failed to update season with id: {Id}. Not found.", id);
@@ -69,7 +69,7 @@ public class DataController : ControllerBase
     public async Task<IActionResult> Delete(string id)
     {
         _logger.LogInformation("Executing Delete method with id: {Id}.", id);
-        var deleted = await _uow.Seasons.RemoveAsync(id);
+        var deleted = await _uow.Seasons.RemoveAsync(id).ConfigureAwait(false);
         if (!deleted)
         {
             _logger.LogWarning("Failed to delete season with id: {Id}. Not found.", id);
